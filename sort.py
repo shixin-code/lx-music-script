@@ -22,7 +22,27 @@ def get_name(item):
 
 def sort(file_path):
     '''
-    加载json文件 file_path，对‘defaultList’ 列表，按照‘name’字段排序
+    加载json文件 file_path，对‘defaultList’ 列表，按照‘name’字段排序。文件格式：
+    {
+        "defaultList":[    ## 【试听列表】
+            {}, {}         ## 歌曲列表
+        ],
+        "loveList":[       ## 【我的收藏】
+            {}, {}         ## 歌曲列表
+        ],     
+        "userList":[       ## 其他用户创建的列表
+            {
+                "id":"userlist_1702347341784",
+                "name":"我的收藏已下载",
+                "list":[]  ## 歌曲列表
+            },
+            {
+                "id":"userlist_1706452473261",
+                "name":"不喜欢",
+                "list":[]  ## 歌曲列表
+            }
+        ]
+    }
     '''
     
     with open(file_path, 'r', encoding='utf-8') as f:
