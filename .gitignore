@@ -2,3 +2,4 @@
 __pycache__
 *.pyc
 lx-music/
+users_handle_result.json
