@@ -9,10 +9,6 @@ import log
 import json
 from pypinyin import lazy_pinyin
 
-parser = argparse.ArgumentParser('Usage: %s' % sys.argv[0])
-parser.add_argument('-f', '--file', required=True, help='lx-music snapshot file path')
-args = parser.parse_args()
-
 
 def get_name(item):
     name = item['name']
@@ -70,7 +66,12 @@ def backup_file(file_path):
     log.i('backup file: %s --> %s' % (file_path, backup_file_path))
     shutil.copy(file_path, backup_file_path)
     
+def sort_snapshot_file(file_path):
+    backup_file(file_path)
+    sort(file_path)
 
 if __name__ == '__main__':
-    backup_file(args.file)
-    sort(args.file)
+    parser = argparse.ArgumentParser('Usage: %s' % sys.argv[0])
+    parser.add_argument('-f', '--file', required=True, help='lx-music snapshot file path')
+    args = parser.parse_args()
+    sort_snapshot_file(args.file)
