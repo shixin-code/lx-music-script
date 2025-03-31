@@ -48,14 +48,18 @@ def sort(file_path):
 
         ## 加载不喜欢的歌曲id列表
         unlike_song_ids = load_unlike_song_ids(data)
+        log.i('unlike_song_ids count: %s' % len(unlike_song_ids) if unlike_song_ids else 0)
 
         for list_name in sorting_list_names:
             if list_name not in data:
                 continue
             song_list = data[list_name]
+            old_song_count = len(song_list)
             ## 移除不喜欢的歌曲
             if unlike_song_ids:
                 song_list = [song for song in song_list if song['id'] not in unlike_song_ids]
+            new_song_count = len(song_list)
+            log.i('%s filter unlike song: %s --> %s' % (list_name, old_song_count, new_song_count))
 
             ## 按照‘name’字段排序
             sorted_list = sorted(song_list, key=get_name)
