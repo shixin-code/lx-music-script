@@ -4,16 +4,16 @@ from typing import Tuple
 # -*- coding: utf-8 -*-
 import os.path
 
-# lx_music_data_root_dir = '/opt/data/lx-music'
-lx_music_data_root_dir = '/Users/apple/code/github/lx-music-script/lx-music'
-
 class UserData:
-    def __init__(self, user_name):
+    def __init__(self, lx_music_data_root_dir, user_name):
         self.user_name = user_name
         self.user_dir = os.path.join(lx_music_data_root_dir, 'users', user_name)
         self.list_dir = os.path.join(self.user_dir, 'list')
         self.dislike_dir = os.path.join(self.user_dir, 'dislike')
         self.snapshot_dir = os.path.join(self.list_dir, 'snapshot')
+
+    def get_user_name(self):
+        return self.user_name
 
     def get_user_dir(self):
         return self.user_dir
