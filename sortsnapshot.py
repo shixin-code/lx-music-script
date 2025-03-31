@@ -40,16 +40,46 @@ def sort(file_path):
         ]
     }
     '''
-    
+
+    ## 加载json文件，对指定列表按照‘name’字段排序
+    sorting_list_names = ['defaultList', 'loveList']
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
-        default_list = data['defaultList']
-        sorted_list = sorted(default_list, key=get_name)
-        data['defaultList'] = sorted_list
-        # log.i(json.dumps(data, indent=4))
 
+        ## 加载不喜欢的歌曲id列表
+        unlike_song_ids = load_unlike_song_ids(data)
+
+        for list_name in sorting_list_names:
+            if list_name not in data:
+                continue
+            song_list = data[list_name]
+            ## 移除不喜欢的歌曲
+            if unlike_song_ids:
+                song_list = [song for song in song_list if song['id'] not in unlike_song_ids]
+
+            ## 按照‘name’字段排序
+            sorted_list = sorted(song_list, key=get_name)
+            data[list_name] = sorted_list
+
+    ## 保存排序后的数据
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+
+def load_unlike_song_ids(data):
+    '''
+    加载不喜欢的歌曲id列表
+    '''
+    ## 不喜欢的列表名称，用于移除不喜欢的歌曲
+    unlike_list_name = '不喜欢'
+
+    unlike_son_ids = {}
+
+    user_list = data['userList']
+    for item in user_list:
+        if item['name'] == unlike_list_name:
+            unlike_son_ids = { song["id"] for song in item['list'] }
+            return unlike_son_ids
+    return None
 
 import os
 import datetime
